@@ -46,8 +46,6 @@ export default function PasswordReset() {
         email: data.email,
       });
 
-      const result = response.data;
-
       if (response.status === 200) {
         toast({
           title: "Success!",
@@ -59,7 +57,7 @@ export default function PasswordReset() {
     } catch (err: any | Error) {
       toast({
         title: "Failure!",
-        description: "Email not found",
+        description: err.response.data.message,
       });
       setIsLoading(false);
     }

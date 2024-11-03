@@ -1,4 +1,3 @@
-// pages/api/auth/passwordreset.ts
 import { NextResponse } from "next/server";
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
@@ -48,9 +47,6 @@ export async function POST(request: Request) {
       return NextResponse.json({ message: "Password reset successfully" });
     }
   } catch (error: any | Error) {
-    return NextResponse.json(
-      { message: "Internal server error" },
-      { status: 500 }
-    );
+    return NextResponse.json({ message: error?.message }, { status: 500 });
   }
 }

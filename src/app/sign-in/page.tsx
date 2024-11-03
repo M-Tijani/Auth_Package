@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { signIn, useSession, SessionProvider } from "next-auth/react";
+import { signIn, SessionProvider } from "next-auth/react";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
@@ -78,15 +78,15 @@ function AuthForm() {
         setError(
           result.error === "CredentialsSignin"
             ? "Invalid email or password"
-            : "An error occurred. Please try again."
+            : result.error
         );
+        setIsLoading(false);
       } else {
         router.push("/dashboard");
       }
     } catch (error) {
-      setError("An unexpected error occurred. Please try again.");
-    } finally {
       setIsLoading(false);
+      setError(error instanceof Error ? error.message : "An error occurred.");
     }
   };
 
@@ -118,8 +118,7 @@ function AuthForm() {
         setError("Failed to sign in with Google. Please try again.");
       }
     } catch (error) {
-      setError("An unexpected error occurred. Please try again.");
-    } finally {
+      setError(error instanceof Error ? error.message : "An error occurred.");
       setIsGoogleLoading(false);
     }
   };

@@ -58,7 +58,7 @@ export default function ResetPassword() {
     } else {
       router.push("/signin");
     }
-  }, []);
+  }, [router]);
 
   const onSubmit: SubmitHandler<ResetPasswordInputs> = async (data) => {
     setError(null);
