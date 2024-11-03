@@ -27,7 +27,9 @@ export async function POST(request: Request) {
       .sign(new TextEncoder().encode(process.env.JWT_SECRET));
 
     try {
-      const resetLink = `http://localhost:3000/reset_password?token=${token}`;
+      const environment = process.env.ENVIRONMENT || "LOCAL"; // Default to LOCAL if not specified
+      const baseUrl = process.env[environment];
+      const resetLink = `${baseUrl}/reset_password?token=${token}`;
 
       const transporter = nodemailer.createTransport({
         service: "gmail",
