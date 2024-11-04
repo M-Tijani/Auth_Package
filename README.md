@@ -4,17 +4,6 @@ A complete starter kit for implementing robust user authentication in Next.js pr
 
 ![App Screenshot](https://i.ibb.co/LhKyQ80/1.png)
 
-## Tech Stack
-
-- **Next.js**: Framework for server-side rendering and static site generation.
-- **NextAuth.js**: Authentication solution for Next.js with built-in support for Google OAuth.
-- **Zod**: TypeScript-first schema declaration and validation library.
-- **React Hook Form**: Library for building flexible forms with minimal re-renders.
-- **ShadCN Components**: Custom UI components for consistent and elegant design.
-- **ShadCN Form**: Advanced forms built with the ShadCN component library.
-- **Prisma**: Modern database toolkit to query, migrate, and manage data.
-- **MongoDB**: NoSQL database for scalable data storage.
-
 ## Features
 
 - **Google OAuth Integration**: Out-of-the-box support for authenticating users via Google.
