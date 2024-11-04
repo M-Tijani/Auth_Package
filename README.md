@@ -1,36 +1,65 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Authentication Starter Kit
 
-## Getting Started
+A complete starter kit for implementing robust user authentication in Next.js projects, including Google OAuth and form validation. This kit simplifies the integration of a modern authentication stack with best practices.
 
-First, run the development server:
+## Tech Stack
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **Next.js**: Framework for server-side rendering and static site generation.
+- **NextAuth.js**: Authentication solution for Next.js with built-in support for Google OAuth.
+- **Zod**: TypeScript-first schema declaration and validation library.
+- **React Hook Form**: Library for building flexible forms with minimal re-renders.
+- **ShadCN Components**: Custom UI components for consistent and elegant design.
+- **ShadCN Form**: Advanced forms built with the ShadCN component library.
+- **Prisma**: Modern database toolkit to query, migrate, and manage data.
+- **MongoDB**: NoSQL database for scalable data storage.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Features
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **Google OAuth Integration**: Out-of-the-box support for authenticating users via Google.
+- **Form Validation**: Robust client-side and server-side form validation using Zod.
+- **Reusable UI Components**: Pre-built and styled components from ShadCN for faster development.
+- **Data Management**: Integration with Prisma and MongoDB for handling user data.
+- **Type Safety**: Full TypeScript support for safer and more reliable code.
+- **Responsive Design**: UI components are mobile-friendly and accessible.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Installation
 
-## Learn More
+1. Clone the repository:
 
-To learn more about Next.js, take a look at the following resources:
+   ```bash
+   git clone hhttps://github.com/M-Tijani/Auth_Package
+   cd Auth_Package
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+2. Install the packeges:
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+   ```bash
+   npm install or npm i
+   pnpm install or npm i
+   ```
 
-## Deploy on Vercel
+3. Set up your environment variables.:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+   ```bash
+   DATABASE_URL="mongodb+srv://name:password@mongodb.net"/databaseName?retryWrites=true&w=majority
+   GOOGLE_CLIENT_ID=From_Google_Console
+   GOOGLE_CLIENT_SECRET=From_Google_Console
+   JWT_SECRET=Make_A_Unique_String
+   NEXTAUTH_SECRET=Make_A_Unique_String
+   MAILER_SEND_API_KEY=From_Mailjet
+   GMAIL_APP_PASSWORD=Create_Your_App_Password
+   GMAIL_USER=Your_Gmail_Account
+   BRAND_NAME=Your_Brand_Name // "You can remove it if you want"
+   PRODUCTION=https://your_domain.com
+   LOCAL=http://localhost:3000
+   ENVIRONMENT=LOCAL
+   ```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+4. Install the packeges:
+
+   ```bash
+   npm run dev
+   pnpm run dev
+   ```
+
+5.Open http://localhost:3000 to see your application in action.
