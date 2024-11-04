@@ -3,7 +3,7 @@ import { FaUserAlt } from "react-icons/fa";
 
 export default function Home() {
   return (
-    <div className="min-h-screen w-full flex items-center justify-center gap-2">
+    <div className="w-full flex items-center justify-center gap-2 my-10">
       <Link
         href="/sign-in"
         className="box-border relative z-30 inline-flex items-center justify-center w-auto px-8 py-3 overflow-hidden font-bold text-white transition-all duration-300 bg-neutral-700 rounded-md cursor-pointer group ring-offset-2 ring-1 ring-indigo-300 ring-offset-indigo-200 hover:ring-offset-neutral-500 ease focus:outline-none"
