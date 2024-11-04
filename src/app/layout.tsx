@@ -36,10 +36,20 @@ export default function RootLayout({
         <Provider>
           <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
             <div className="container mx-auto flex h-16 items-center px-4">
-              <nav className="container mx-auto flex w-full items-center justify-between">
+              <nav className="container mx-auto flex w-full items-center justify-around">
                 <div className="flex items-center space-x-4">
                   <Link href="/" className="font-bold">
                     Home
+                  </Link>
+                </div>
+                <div className="flex items-center space-x-4">
+                  <span>Link To Repo on Github</span>
+                  <Link
+                    href="https://github.com/M-Tijani/Auth_Package"
+                    target="new"
+                    className="text-foreground/60 transition-colors hover:text-foreground"
+                  >
+                    Auth Package
                   </Link>
                 </div>
                 <div className="flex items-center space-x-4">

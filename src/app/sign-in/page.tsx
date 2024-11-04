@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { signIn, SessionProvider } from "next-auth/react";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import * as z from "zod";
@@ -24,6 +24,14 @@ import { Separator } from "@/components/ui/separator";
 import { Loader2, Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
 import axios from "axios";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 
 const signInSchema = z.object({
   email: z.string().email("Invalid email address").min(1, "Email is required"),
@@ -58,13 +66,22 @@ function AuthForm() {
 
   const signInForm = useForm<SignInFormInputs>({
     resolver: zodResolver(signInSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
   });
 
   const signUpForm = useForm<SignUpFormInputs>({
     resolver: zodResolver(signUpSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+      confirmPassword: "",
+    },
   });
 
-  const onSignInSubmit: SubmitHandler<SignInFormInputs> = async (data) => {
+  const onSignInSubmit = async (data: SignInFormInputs) => {
     setIsLoading(true);
     setError("");
     try {
@@ -90,7 +107,7 @@ function AuthForm() {
     }
   };
 
-  const onSignUpSubmit: SubmitHandler<SignUpFormInputs> = async (data) => {
+  const onSignUpSubmit = async (data: SignUpFormInputs) => {
     setIsLoading(true);
     setError("");
     try {
@@ -103,7 +120,7 @@ function AuthForm() {
         });
         router.push("/dashboard");
       }
-    } catch (error: any | Error) {
+    } catch (error: any) {
       setError(error.response.data.error);
       setIsLoading(false);
     }
@@ -148,184 +165,180 @@ function AuthForm() {
             transition={{ duration: 0.2 }}
           >
             {isSignIn ? (
-              <form
-                onSubmit={signInForm.handleSubmit(onSignInSubmit)}
-                className="space-y-4"
-              >
-                <div className="space-y-2">
-                  <Label htmlFor="signin-email">Email</Label>
-                  <Input
-                    id="signin-email"
-                    type="email"
-                    {...signInForm.register("email")}
-                    placeholder="Enter your email"
-                    aria-invalid={
-                      signInForm.formState.errors.email ? "true" : "false"
-                    }
+              <Form {...signInForm}>
+                <form
+                  onSubmit={signInForm.handleSubmit(onSignInSubmit)}
+                  className="space-y-4"
+                >
+                  <FormField
+                    control={signInForm.control}
+                    name="email"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Email</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Enter your email" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
                   />
-                  {signInForm.formState.errors.email && (
-                    <p className="text-sm text-destructive">
-                      {signInForm.formState.errors.email.message}
-                    </p>
-                  )}
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="signin-password">Password</Label>
-                  <div className="relative">
-                    <Input
-                      id="signin-password"
-                      type={showPassword ? "text" : "password"}
-                      {...signInForm.register("password")}
-                      placeholder="Enter your password"
-                      aria-invalid={
-                        signInForm.formState.errors.password ? "true" : "false"
-                      }
-                    />
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      size="icon"
-                      className="absolute right-2 top-1/2 -translate-y-1/2"
-                      onClick={() => setShowPassword(!showPassword)}
-                    >
-                      {showPassword ? (
-                        <EyeOff className="h-4 w-4" />
-                      ) : (
-                        <Eye className="h-4 w-4" />
-                      )}
-                      <span className="sr-only">
-                        {showPassword ? "Hide password" : "Show password"}
-                      </span>
-                    </Button>
-                  </div>
-                  {signInForm.formState.errors.password && (
-                    <p className="text-sm text-destructive">
-                      {signInForm.formState.errors.password.message}
-                    </p>
-                  )}
-                </div>
-                <Button type="submit" className="w-full" disabled={isLoading}>
-                  {isLoading ? (
-                    <>
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Signing In...
-                    </>
-                  ) : (
-                    "Sign In"
-                  )}
-                </Button>
-              </form>
+                  <FormField
+                    control={signInForm.control}
+                    name="password"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Password</FormLabel>
+                        <FormControl>
+                          <div className="relative">
+                            <Input
+                              type={showPassword ? "text" : "password"}
+                              placeholder="Enter your password"
+                              {...field}
+                            />
+                            <Button
+                              type="button"
+                              variant="ghost"
+                              size="icon"
+                              className="absolute right-2 top-1/2 -translate-y-1/2"
+                              onClick={() => setShowPassword(!showPassword)}
+                            >
+                              {showPassword ? (
+                                <EyeOff className="h-4 w-4" />
+                              ) : (
+                                <Eye className="h-4 w-4" />
+                              )}
+                              <span className="sr-only">
+                                {showPassword
+                                  ? "Hide password"
+                                  : "Show password"}
+                              </span>
+                            </Button>
+                          </div>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <Button type="submit" className="w-full" disabled={isLoading}>
+                    {isLoading ? (
+                      <>
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        Signing In...
+                      </>
+                    ) : (
+                      "Sign In"
+                    )}
+                  </Button>
+                </form>
+              </Form>
             ) : (
-              <form
-                onSubmit={signUpForm.handleSubmit(onSignUpSubmit)}
-                className="space-y-4"
-              >
-                <div className="space-y-2">
-                  <Label htmlFor="signup-email">Email</Label>
-                  <Input
-                    id="signup-email"
-                    type="email"
-                    {...signUpForm.register("email")}
-                    placeholder="Enter your email"
-                    aria-invalid={
-                      signUpForm.formState.errors.email ? "true" : "false"
-                    }
+              <Form {...signUpForm}>
+                <form
+                  onSubmit={signUpForm.handleSubmit(onSignUpSubmit)}
+                  className="space-y-4"
+                >
+                  <FormField
+                    control={signUpForm.control}
+                    name="email"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Email</FormLabel>
+                        <FormControl>
+                          <Input placeholder="Enter your email" {...field} />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
                   />
-                  {signUpForm.formState.errors.email && (
-                    <p className="text-sm text-destructive">
-                      {signUpForm.formState.errors.email.message}
-                    </p>
-                  )}
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="signup-password">Password</Label>
-                  <div className="relative">
-                    <Input
-                      id="signup-password"
-                      type={showPassword ? "text" : "password"}
-                      {...signUpForm.register("password")}
-                      placeholder="Enter your password"
-                      aria-invalid={
-                        signUpForm.formState.errors.password ? "true" : "false"
-                      }
-                    />
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      size="icon"
-                      className="absolute right-2 top-1/2 -translate-y-1/2"
-                      onClick={() => setShowPassword(!showPassword)}
-                    >
-                      {showPassword ? (
-                        <EyeOff className="h-4 w-4" />
-                      ) : (
-                        <Eye className="h-4 w-4" />
-                      )}
-                      <span className="sr-only">
-                        {showPassword ? "Hide password" : "Show password"}
-                      </span>
-                    </Button>
-                  </div>
-                  {signUpForm.formState.errors.password && (
-                    <p className="text-sm text-destructive">
-                      {signUpForm.formState.errors.password.message}
-                    </p>
-                  )}
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="signup-confirm-password">
-                    Confirm Password
-                  </Label>
-                  <div className="relative">
-                    <Input
-                      id="signup-confirm-password"
-                      type={showConfirmPassword ? "text" : "password"}
-                      {...signUpForm.register("confirmPassword")}
-                      placeholder="Confirm your password"
-                      aria-invalid={
-                        signUpForm.formState.errors.confirmPassword
-                          ? "true"
-                          : "false"
-                      }
-                    />
-                    <Button
-                      type="button"
-                      variant="ghost"
-                      size="icon"
-                      className="absolute right-2 top-1/2 -translate-y-1/2"
-                      onClick={() =>
-                        setShowConfirmPassword(!showConfirmPassword)
-                      }
-                    >
-                      {showConfirmPassword ? (
-                        <EyeOff className="h-4 w-4" />
-                      ) : (
-                        <Eye className="h-4 w-4" />
-                      )}
-                      <span className="sr-only">
-                        {showConfirmPassword
-                          ? "Hide password"
-                          : "Show password"}
-                      </span>
-                    </Button>
-                  </div>
-                  {signUpForm.formState.errors.confirmPassword && (
-                    <p className="text-sm text-destructive">
-                      {signUpForm.formState.errors.confirmPassword.message}
-                    </p>
-                  )}
-                </div>
-                <Button type="submit" className="w-full" disabled={isLoading}>
-                  {isLoading ? (
-                    <>
-                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Signing Up...
-                    </>
-                  ) : (
-                    "Sign Up"
-                  )}
-                </Button>
-              </form>
+                  <FormField
+                    control={signUpForm.control}
+                    name="password"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Password</FormLabel>
+                        <FormControl>
+                          <div className="relative">
+                            <Input
+                              type={showPassword ? "text" : "password"}
+                              placeholder="Enter your password"
+                              {...field}
+                            />
+                            <Button
+                              type="button"
+                              variant="ghost"
+                              size="icon"
+                              className="absolute right-2 top-1/2 -translate-y-1/2"
+                              onClick={() => setShowPassword(!showPassword)}
+                            >
+                              {showPassword ? (
+                                <EyeOff className="h-4 w-4" />
+                              ) : (
+                                <Eye className="h-4 w-4" />
+                              )}
+                              <span className="sr-only">
+                                {showPassword
+                                  ? "Hide password"
+                                  : "Show password"}
+                              </span>
+                            </Button>
+                          </div>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <FormField
+                    control={signUpForm.control}
+                    name="confirmPassword"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Confirm Password</FormLabel>
+                        <FormControl>
+                          <div className="relative">
+                            <Input
+                              type={showConfirmPassword ? "text" : "password"}
+                              placeholder="Confirm your password"
+                              {...field}
+                            />
+                            <Button
+                              type="button"
+                              variant="ghost"
+                              size="icon"
+                              className="absolute right-2 top-1/2 -translate-y-1/2"
+                              onClick={() =>
+                                setShowConfirmPassword(!showConfirmPassword)
+                              }
+                            >
+                              {showConfirmPassword ? (
+                                <EyeOff className="h-4 w-4" />
+                              ) : (
+                                <Eye className="h-4 w-4" />
+                              )}
+                              <span className="sr-only">
+                                {showConfirmPassword
+                                  ? "Hide password"
+                                  : "Show password"}
+                              </span>
+                            </Button>
+                          </div>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                  <Button type="submit" className="w-full" disabled={isLoading}>
+                    {isLoading ? (
+                      <>
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        Signing Up...
+                      </>
+                    ) : (
+                      "Sign Up"
+                    )}
+                  </Button>
+                </form>
+              </Form>
             )}
           </motion.div>
         </AnimatePresence>

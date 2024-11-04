@@ -2,12 +2,11 @@
 
 import { useState } from "react";
 import axios from "axios";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import {
   Card,
   CardContent,
@@ -19,6 +18,14 @@ import {
 import { useToast } from "@/hooks/use-toast";
 import { Loader2 } from "lucide-react";
 import Link from "next/link";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
 
 const schema = z.object({
   email: z.string().email("Invalid email address").min(1, "Email is required"),
@@ -27,18 +34,17 @@ const schema = z.object({
 type ResetPassword = z.infer<typeof schema>;
 
 export default function PasswordReset() {
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm<ResetPassword>({
+  const form = useForm<ResetPassword>({
     resolver: zodResolver(schema),
+    defaultValues: {
+      email: "",
+    },
   });
+
   const { toast } = useToast();
   const [isLoading, setIsLoading] = useState(false);
 
-  const onSubmit: SubmitHandler<ResetPassword> = async (data) => {
+  const onSubmit = async (data: ResetPassword) => {
     setIsLoading(true);
 
     try {
@@ -51,10 +57,10 @@ export default function PasswordReset() {
           title: "Success!",
           description: "Password reset link has been sent to your email.",
         });
-        reset();
+        form.reset();
         setIsLoading(false);
       }
-    } catch (err: any | Error) {
+    } catch (err: any) {
       toast({
         title: "Failure!",
         description: err.response.data.message,
@@ -73,38 +79,33 @@ export default function PasswordReset() {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="email">Email</Label>
-              <Input
-                id="email"
-                type="email"
-                {...register("email")}
-                placeholder="Enter your email"
-                aria-invalid={errors.email ? "true" : "false"}
-                aria-describedby={errors.email ? "email-error" : undefined}
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Enter your email" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
-              {errors.email && (
-                <p
-                  id="email-error"
-                  className="text-sm text-destructive"
-                  aria-live="polite"
-                >
-                  {errors.email.message}
-                </p>
-              )}
-            </div>
-            <Button type="submit" className="w-full" disabled={isLoading}>
-              {isLoading ? (
-                <>
-                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                  Sending...
-                </>
-              ) : (
-                "Send Reset Email"
-              )}
-            </Button>
-          </form>
+              <Button type="submit" className="w-full" disabled={isLoading}>
+                {isLoading ? (
+                  <>
+                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    Sending...
+                  </>
+                ) : (
+                  "Send Reset Email"
+                )}
+              </Button>
+            </form>
+          </Form>
         </CardContent>
         <CardFooter className="flex justify-center">
           <Button variant="link" asChild>
