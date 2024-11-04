@@ -19,7 +19,6 @@ A complete starter kit for implementing robust user authentication in Next.js pr
 
    ```bash
    git clone hhttps://github.com/M-Tijani/Auth_Package
-   or
    cd Auth_Package
    ```
 
