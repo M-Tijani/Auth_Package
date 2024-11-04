@@ -2,7 +2,7 @@
 
 A complete starter kit for implementing robust user authentication in Next.js projects, including Google OAuth and form validation. This kit simplifies the integration of a modern authentication stack with best practices.
 
-![Sign-in]([https://example.com/image.png](https://i.ibb.co/LhKyQ80/1.png))
+![App Screenshot](https://i.ibb.co/LhKyQ80/1.png)
 
 ## Tech Stack
 
