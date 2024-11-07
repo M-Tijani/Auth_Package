@@ -47,7 +47,13 @@ A complete starter kit for implementing robust user authentication in Next.js pr
    ENVIRONMENT=LOCAL
    ```
 
-4. Install the packeges:
+4. Prisma Schema:
+
+   ```bash
+   npx prisma generate
+   ```
+   
+5. Install the packeges:
 
    ```bash
    npm run dev
@@ -55,4 +61,4 @@ A complete starter kit for implementing robust user authentication in Next.js pr
    pnpm run dev
    ```
 
-5.Open http://localhost:3000 to see your application in action.
+6.Open http://localhost:3000 to see your application in action.
